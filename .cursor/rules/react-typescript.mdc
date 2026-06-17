@@ -1,0 +1,47 @@
+---
+description: React and TypeScript standards
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# React + TypeScript
+
+## Components
+
+- Use functional components and hooks
+- Name components in PascalCase; match the file name (`Button.tsx` → `Button`)
+- Props: use `interface` or `type`; avoid `any`
+
+```tsx
+// ✅ GOOD
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+}
+
+export function Button({ label, onClick }: ButtonProps) {
+  return <button type="button" onClick={onClick}>{label}</button>;
+}
+```
+
+## Hooks
+
+- Extract reusable logic into custom hooks (`use*` prefix)
+- Keep dependency arrays for `useEffect`, `useMemo`, and `useCallback` complete and accurate
+
+## TypeScript
+
+- Prefer `interface` for object props; use `type` for unions and intersections
+- Export types from the same module when used elsewhere
+- Handle errors with proper types; do not use empty `catch` blocks
+
+## Style
+
+- One component per file (except small barrel `index.ts` files)
+- Colocate tests and stories next to the component when present (`Button.test.tsx`)
+
+## Avoid
+
+- Class components (unless required)
+- `default export` for main components if the project consistently uses named exports
+- New inline objects/functions in JSX when they cause unnecessary re-renders — memoize or extract them

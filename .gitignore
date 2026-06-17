@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.vite/
+*.local
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor (keep .cursor/rules — project config)
+.idea/
+*.swp
+*.swo
+*~
+
+# Test & coverage
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional caches
+.cache/
+.eslintcache
+.turbo/

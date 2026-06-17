@@ -1,0 +1,20 @@
+---
+alwaysApply: true
+---
+
+Tech Stack:
+
+- React
+- TypeScript
+- React Hook Form
+- Ant Design
+- TailwindCSS
+- Graphql
+
+Rules:
+
+- Avoid any
+- Prefer reusable hooks
+- Use Controller for Antd fields
+- Prefer strict typing
+- Follow SOLID principles
