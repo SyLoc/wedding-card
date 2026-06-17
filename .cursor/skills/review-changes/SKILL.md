@@ -19,7 +19,7 @@ Review only the changed code. Read surrounding context when needed to judge corr
 
 3. **Read context** — for non-trivial changes, read the full changed files and closely related modules (types, hooks, queries, parent components).
 
-4. **Validate when possible** — run `npm run lint` or `npm run build` if the review involves type/logic risk and commands are available.
+4. **Validate when possible** — run `npm run lint` if the review involves type/logic risk and the command is available.
 
 5. **Report findings** — use the output format below. Only report meaningful issues.
 
