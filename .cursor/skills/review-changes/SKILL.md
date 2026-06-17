@@ -1,6 +1,6 @@
 ---
 name: review-changes
-description: Reviews git file changes for bugs, type safety, and maintainability using this project's React/TypeScript/GraphQL conventions. Use when the user asks to review changes, review a diff, review staged files, review a PR, or find errors and improvements in modified code.
+description: Reviews git file changes for bugs, type safety, and maintainability using this project's React/TypeScript/GraphQL conventions, then applies suggested fixes directly to the changed files. Use when the user asks to review changes, review a diff, review staged files, review a PR, or find errors and improvements in modified code.
 ---
 
 # Review File Changes
@@ -22,6 +22,8 @@ Review only the changed code. Read surrounding context when needed to judge corr
 4. **Validate when possible** — run `npm run lint` or `npm run build` if the review involves type/logic risk and commands are available.
 
 5. **Report findings** — use the output format below. Only report meaningful issues.
+
+6. **Apply fixes** — suggestions should be applied directly to the file. After reporting, edit the changed files to implement Issues and Improvements (prioritize High and Medium severity first). Run `npm run lint` to verify. Summarize what was changed in the response.
 
 ## Tech Stack
 
@@ -78,13 +80,13 @@ Follow [STANDARDS.md](STANDARDS.md) for file layout, naming, imports, and patter
 
 Quick checks:
 
-| Area | Expected pattern |
-|------|------------------|
-| Imports | `@/components/...`, `@/hooks/...`, `@/types/...` |
-| Components | Named export, PascalCase, props interface, one component per file |
+| Area          | Expected pattern                                                       |
+| ------------- | ---------------------------------------------------------------------- |
+| Imports       | `@/components/...`, `@/hooks/...`, `@/types/...`                       |
+| Components    | Named export, PascalCase, props interface, one component per file      |
 | Data fetching | Custom hook (e.g. `useCountries`) returning `{ data, loading, error }` |
-| Styling | Tailwind for page layout; Ant Design for interactive UI |
-| Types | Shared types exported from `src/types/` |
+| Styling       | Tailwind for page layout; Ant Design for interactive UI                |
+| Types         | Shared types exported from `src/types/`                                |
 
 ### 7. Maintainability
 
@@ -96,10 +98,13 @@ Quick checks:
 
 ```markdown
 ## Summary
+
 Brief overall assessment of the changes.
 
 ## Issues
+
 For each issue:
+
 - **Severity**: High / Medium / Low
 - **File**: path/to/file.tsx (line or range if helpful)
 - **Description**: What is wrong
@@ -107,23 +112,26 @@ For each issue:
 - **Suggested fix**: Concrete change
 
 ## Improvements
+
 Optional non-blocking suggestions.
 
 ## Positive Notes
+
 Good patterns worth keeping.
 ```
 
 ## Severity Guide
 
-| Level | When to use |
-|-------|-------------|
-| **High** | Bugs, broken UX, type unsafety that hides errors, missing error handling for user-facing flows |
+| Level      | When to use                                                                                       |
+| ---------- | ------------------------------------------------------------------------------------------------- |
+| **High**   | Bugs, broken UX, type unsafety that hides errors, missing error handling for user-facing flows    |
 | **Medium** | Likely bugs under edge cases, hook dependency issues, convention violations that hurt consistency |
-| **Low** | Minor readability or optional refactors with clear benefit |
+| **Low**    | Minor readability or optional refactors with clear benefit                                        |
 
 ## Rules
 
 - Review **changes**, not the entire codebase unless asked
+- **Apply suggestions in code** — suggestions should be added directly into the file; do not leave fixes as comments-only unless the user asks for review-only output
 - Do not suggest changes with little practical value
 - Do not recommend rewriting working code for style alone
 - Cite changed code with `startLine:endLine:filepath` when pointing to specific problems
