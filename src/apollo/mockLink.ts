@@ -1,5 +1,11 @@
 import { ApolloLink, Observable } from "@apollo/client";
 import { MOCK_COUNTRIES } from "@/mocks/countries";
+import {
+  deleteMockUser,
+  getMockUsers,
+  updateMockUser,
+} from "@/mocks/users";
+import type { UpdateUserInput } from "@/types/user";
 
 const FAKE_API_DELAY_MS = 800;
 
@@ -15,6 +21,49 @@ export const mockLink = new ApolloLink((operation) => {
       if (operation.operationName === "GetCountries") {
         observer.next({
           data: { countries: MOCK_COUNTRIES },
+        });
+        observer.complete();
+        return;
+      }
+
+      if (operation.operationName === "GetUsers") {
+        observer.next({
+          data: { users: getMockUsers() },
+        });
+        observer.complete();
+        return;
+      }
+
+      if (operation.operationName === "UpdateUser") {
+        const { id, input } = operation.variables as {
+          id: string;
+          input: UpdateUserInput;
+        };
+        const updatedUser = updateMockUser(id, input);
+
+        if (!updatedUser) {
+          observer.error(new Error(`User not found: ${id}`));
+          return;
+        }
+
+        observer.next({
+          data: { updateUser: updatedUser },
+        });
+        observer.complete();
+        return;
+      }
+
+      if (operation.operationName === "DeleteUser") {
+        const { id } = operation.variables as { id: string };
+        const success = deleteMockUser(id);
+
+        if (!success) {
+          observer.error(new Error(`User not found: ${id}`));
+          return;
+        }
+
+        observer.next({
+          data: { deleteUser: { id, success: true } },
         });
         observer.complete();
         return;

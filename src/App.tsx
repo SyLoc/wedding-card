@@ -1,10 +1,17 @@
 import { ConfigProvider } from "antd";
 import { CountryList } from "@/components/CountryList";
 import { ExampleForm } from "@/components/ExampleForm";
+import { UserList } from "@/components/UserList";
 import { useCountries } from "@/hooks/useCountries";
+import { useUsers } from "@/hooks/useUsers";
 
 export function App() {
   const { countries, loading, error } = useCountries();
+  const {
+    users,
+    loading: usersLoading,
+    error: usersError,
+  } = useUsers();
 
   return (
     <ConfigProvider
@@ -29,6 +36,14 @@ export function App() {
             countries={countries}
             loading={loading}
             error={error}
+          />
+
+          <UserList
+            users={users}
+            loading={usersLoading}
+            error={usersError}
+            countries={countries}
+            countriesLoading={loading}
           />
 
           <ExampleForm
