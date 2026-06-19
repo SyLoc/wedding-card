@@ -1,5 +1,5 @@
 import { Form, Input, Modal, Select } from "antd";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import type { Country } from "@/types/country";
 import type { UpdateUserInput, User } from "@/types/user";
@@ -43,8 +43,36 @@ export function UserEditModal({
         email: user.email,
         countryCode: user.countryCode,
       });
+      return;
+    }
+
+    if (!open) {
+      reset({
+        name: "",
+        email: "",
+        countryCode: "",
+      });
     }
   }, [open, user, reset]);
+
+  const countryOptions = useMemo(() => {
+    const options = countries.map((country) => ({
+      value: country.code,
+      label: country.name,
+    }));
+
+    if (
+      user?.countryCode &&
+      !options.some((option) => option.value === user.countryCode)
+    ) {
+      options.unshift({
+        value: user.countryCode,
+        label: user.countryCode,
+      });
+    }
+
+    return options;
+  }, [countries, user?.countryCode]);
 
   const handleOk = () =>
     new Promise<void>((resolve, reject) => {
@@ -77,6 +105,7 @@ export function UserEditModal({
       confirmLoading={saving}
       destroyOnClose
       okText="Save"
+      okButtonProps={{ disabled: countriesLoading }}
     >
       <Form layout="vertical">
         <Form.Item
@@ -89,9 +118,7 @@ export function UserEditModal({
             name="name"
             control={control}
             rules={{ required: "Name is required" }}
-            render={({ field }) => (
-              <Input {...field} placeholder="Full name" />
-            )}
+            render={({ field }) => <Input {...field} placeholder="Full name" />}
           />
         </Form.Item>
 
@@ -134,10 +161,7 @@ export function UserEditModal({
                 loading={countriesLoading}
                 placeholder="Select a country"
                 optionFilterProp="label"
-                options={countries.map((country) => ({
-                  value: country.code,
-                  label: country.name,
-                }))}
+                options={countryOptions}
               />
             )}
           />
