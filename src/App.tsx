@@ -1,16 +1,16 @@
-import { ConfigProvider } from "antd";
-import { CountryList } from "@/components/CountryList";
-import { UserList } from "@/components/UserList";
-import { useCountries } from "@/hooks/useCountries";
-import { useUsers } from "@/hooks/useUsers";
+import { ConfigProvider } from "antd"
+import { CountryList } from "@/components/CountryList"
+import { UserList } from "@/components/UserList"
+import { useCountries } from "@/hooks/useCountries"
+import { useUsers } from "@/hooks/useUsers"
 
 export function App() {
-  const { countries, loading, error } = useCountries();
+  const { countries, loading, error } = useCountries()
   const {
     users,
     loading: usersLoading,
     error: usersError,
-  } = useUsers();
+  } = useUsers()
 
   return (
     <ConfigProvider
@@ -47,5 +47,5 @@ export function App() {
         </main>
       </div>
     </ConfigProvider>
-  );
+  )
 }

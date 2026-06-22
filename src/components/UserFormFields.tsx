@@ -1,20 +1,20 @@
-import { Form, Input, Select } from "antd";
-import { useMemo } from "react";
-import { Controller } from "react-hook-form";
-import type { Control, FieldErrors } from "react-hook-form";
-import type { Country } from "@/types/country";
-import type { UserInput } from "@/types/user";
+import { Form, Input, Select } from "antd"
+import { useMemo } from "react"
+import { Controller } from "react-hook-form"
+import type { Control, FieldErrors } from "react-hook-form"
+import type { Country } from "@/types/country"
+import type { UserInput } from "@/types/user"
 
 function validateName(value: string): true | string {
-  return value.trim() ? true : "Name is required";
+  return value.trim() ? true : "Name is required"
 }
 
 interface UserFormFieldsProps {
-  control: Control<UserInput>;
-  errors: FieldErrors<UserInput>;
-  countries: Country[];
-  countriesLoading: boolean;
-  currentCountryCode?: string;
+  control: Control<UserInput>
+  errors: FieldErrors<UserInput>
+  countries: Country[]
+  countriesLoading: boolean
+  currentCountryCode?: string
 }
 
 export function UserFormFields({
@@ -28,7 +28,7 @@ export function UserFormFields({
     const options = countries.map((country) => ({
       value: country.code,
       label: country.name,
-    }));
+    }))
 
     if (
       currentCountryCode &&
@@ -37,11 +37,11 @@ export function UserFormFields({
       options.unshift({
         value: currentCountryCode,
         label: currentCountryCode,
-      });
+      })
     }
 
-    return options;
-  }, [countries, currentCountryCode]);
+    return options
+  }, [countries, currentCountryCode])
 
   return (
     <>
@@ -108,5 +108,5 @@ export function UserFormFields({
         />
       </Form.Item>
     </>
-  );
+  )
 }

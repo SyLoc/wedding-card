@@ -1,4 +1,4 @@
-import type { CreateUserInput, UpdateUserInput, User } from "@/types/user";
+import type { CreateUserInput, UpdateUserInput, User } from "@/types/user"
 
 let mockUsers: User[] = [
   {
@@ -31,39 +31,39 @@ let mockUsers: User[] = [
     email: "emma@example.com",
     countryCode: "GB",
   },
-];
+]
 
 export function getMockUsers(): User[] {
-  return [...mockUsers];
+  return [...mockUsers]
 }
 
 export function createMockUser(input: CreateUserInput): User {
   const nextId =
-    Math.max(0, ...mockUsers.map((user) => Number(user.id) || 0)) + 1;
+    Math.max(0, ...mockUsers.map((user) => Number(user.id) || 0)) + 1
   const user = {
     id: String(nextId),
     ...input,
-  };
+  }
 
-  mockUsers = [user, ...mockUsers];
-  return user;
+  mockUsers = [user, ...mockUsers]
+  return user
 }
 
 export function updateMockUser(
   id: string,
   input: UpdateUserInput,
 ): User | null {
-  const index = mockUsers.findIndex((user) => user.id === id);
+  const index = mockUsers.findIndex((user) => user.id === id)
   if (index === -1) {
-    return null;
+    return null
   }
 
-  mockUsers[index] = { id, ...input };
-  return mockUsers[index];
+  mockUsers[index] = { id, ...input }
+  return mockUsers[index]
 }
 
 export function deleteMockUser(id: string): boolean {
-  const previousLength = mockUsers.length;
-  mockUsers = mockUsers.filter((user) => user.id !== id);
-  return mockUsers.length < previousLength;
+  const previousLength = mockUsers.length
+  mockUsers = mockUsers.filter((user) => user.id !== id)
+  return mockUsers.length < previousLength
 }

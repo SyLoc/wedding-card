@@ -1,12 +1,12 @@
-import { Alert, Card, Table, Tag } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import type { Country } from "@/types/country";
-import { useMemo } from "react";
+import { Alert, Card, Table, Tag } from "antd"
+import type { ColumnsType } from "antd/es/table"
+import type { Country } from "@/types/country"
+import { useMemo } from "react"
 
 interface CountryListProps {
-  countries: Country[];
-  loading: boolean;
-  error: Error | undefined;
+  countries: Country[]
+  loading: boolean
+  error: Error | undefined
 }
 
 export function CountryList({ countries, loading, error }: CountryListProps) {
@@ -26,7 +26,7 @@ export function CountryList({ countries, loading, error }: CountryListProps) {
       },
     ],
     [],
-  );
+  )
 
   return (
     <Card title="Countries from GraphQL mock" className="mb-6 shadow-sm">
@@ -49,5 +49,5 @@ export function CountryList({ countries, loading, error }: CountryListProps) {
         locale={{ emptyText: loading ? "Loading..." : "No data" }}
       />
     </Card>
-  );
+  )
 }

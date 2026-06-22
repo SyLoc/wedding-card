@@ -49,6 +49,7 @@ Use the `@/` alias for imports from `src`.
 - Add `useMemo` and `useCallback` only when they provide a practical benefit.
 - Prefer `interface` for object props and `type` for unions and intersections.
 - Keep one main component per file.
+- Do not use semicolons at the end of JavaScript or TypeScript statements.
 
 ## Forms and UI
 

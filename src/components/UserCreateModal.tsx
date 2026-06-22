@@ -1,20 +1,20 @@
-import { Alert, Form, Modal } from "antd";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import type { SubmitHandler } from "react-hook-form";
-import { UserFormFields } from "@/components/UserFormFields";
-import { EMPTY_USER_FORM_VALUES } from "@/components/userFormValues";
-import type { Country } from "@/types/country";
-import type { CreateUserInput } from "@/types/user";
+import { Alert, Form, Modal } from "antd"
+import { useEffect } from "react"
+import { useForm } from "react-hook-form"
+import type { SubmitHandler } from "react-hook-form"
+import { UserFormFields } from "@/components/UserFormFields"
+import { EMPTY_USER_FORM_VALUES } from "@/components/userFormValues"
+import type { Country } from "@/types/country"
+import type { CreateUserInput } from "@/types/user"
 
 interface UserCreateModalProps {
-  open: boolean;
-  countries: Country[];
-  countriesLoading: boolean;
-  saving: boolean;
-  error: string | null;
-  onCancel: () => void;
-  onSave: (input: CreateUserInput) => Promise<void>;
+  open: boolean
+  countries: Country[]
+  countriesLoading: boolean
+  saving: boolean
+  error: string | null
+  onCancel: () => void
+  onSave: (input: CreateUserInput) => Promise<void>
 }
 
 export function UserCreateModal({
@@ -33,20 +33,20 @@ export function UserCreateModal({
     formState: { errors },
   } = useForm<CreateUserInput>({
     defaultValues: EMPTY_USER_FORM_VALUES,
-  });
+  })
 
   useEffect(() => {
     if (!open) {
-      reset(EMPTY_USER_FORM_VALUES);
+      reset(EMPTY_USER_FORM_VALUES)
     }
-  }, [open, reset]);
+  }, [open, reset])
 
   const handleValidSubmit: SubmitHandler<CreateUserInput> = (values) =>
-    onSave(values);
+    onSave(values)
 
   const handleOk = () => {
-    void handleSubmit(handleValidSubmit)();
-  };
+    void handleSubmit(handleValidSubmit)()
+  }
 
   return (
     <Modal
@@ -78,5 +78,5 @@ export function UserCreateModal({
         />
       </Form>
     </Modal>
-  );
+  )
 }

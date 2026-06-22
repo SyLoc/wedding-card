@@ -1,4 +1,4 @@
-import type { Country } from "@/types/country";
+import type { Country } from "@/types/country"
 
 export const MOCK_COUNTRIES: Country[] = [
   { code: "VN", name: "Vietnam" },
@@ -11,4 +11,4 @@ export const MOCK_COUNTRIES: Country[] = [
   { code: "DE", name: "Germany" },
   { code: "FR", name: "France" },
   { code: "AU", name: "Australia" },
-];
+]

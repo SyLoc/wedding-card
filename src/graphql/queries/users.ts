@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client"
 
 export const GET_USERS = gql`
   query GetUsers {
@@ -9,4 +9,4 @@ export const GET_USERS = gql`
       countryCode
     }
   }
-`;
+`

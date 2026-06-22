@@ -1,29 +1,29 @@
-import { Alert, Form, Modal } from "antd";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import type { SubmitHandler } from "react-hook-form";
-import { UserFormFields } from "@/components/UserFormFields";
-import { EMPTY_USER_FORM_VALUES } from "@/components/userFormValues";
-import type { Country } from "@/types/country";
-import type { UpdateUserInput, User } from "@/types/user";
+import { Alert, Form, Modal } from "antd"
+import { useEffect } from "react"
+import { useForm } from "react-hook-form"
+import type { SubmitHandler } from "react-hook-form"
+import { UserFormFields } from "@/components/UserFormFields"
+import { EMPTY_USER_FORM_VALUES } from "@/components/userFormValues"
+import type { Country } from "@/types/country"
+import type { UpdateUserInput, User } from "@/types/user"
 
 function getUserFormValues(user: User): UpdateUserInput {
   return {
     name: user.name,
     email: user.email,
     countryCode: user.countryCode,
-  };
+  }
 }
 
 interface UserEditModalProps {
-  open: boolean;
-  user: User | null;
-  countries: Country[];
-  countriesLoading: boolean;
-  saving: boolean;
-  error: string | null;
-  onCancel: () => void;
-  onSave: (id: string, input: UpdateUserInput) => Promise<void>;
+  open: boolean
+  user: User | null
+  countries: Country[]
+  countriesLoading: boolean
+  saving: boolean
+  error: string | null
+  onCancel: () => void
+  onSave: (id: string, input: UpdateUserInput) => Promise<void>
 }
 
 export function UserEditModal({
@@ -43,28 +43,28 @@ export function UserEditModal({
     formState: { errors },
   } = useForm<UpdateUserInput>({
     defaultValues: EMPTY_USER_FORM_VALUES,
-  });
+  })
 
   useEffect(() => {
     if (open && user) {
-      reset(getUserFormValues(user));
-      return;
+      reset(getUserFormValues(user))
+      return
     }
 
     if (!open) {
-      reset(EMPTY_USER_FORM_VALUES);
+      reset(EMPTY_USER_FORM_VALUES)
     }
-  }, [open, user, reset]);
+  }, [open, user, reset])
 
   const handleValidSubmit: SubmitHandler<UpdateUserInput> = (values) => {
-    if (!user) return;
+    if (!user) return
 
-    return onSave(user.id, values);
-  };
+    return onSave(user.id, values)
+  }
 
   const handleOk = () => {
-    void handleSubmit(handleValidSubmit)();
-  };
+    void handleSubmit(handleValidSubmit)()
+  }
 
   return (
     <Modal
@@ -97,5 +97,5 @@ export function UserEditModal({
         />
       </Form>
     </Modal>
-  );
+  )
 }

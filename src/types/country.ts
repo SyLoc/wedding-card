@@ -1,8 +1,8 @@
 export interface Country {
-  code: string;
-  name: string;
+  code: string
+  name: string
 }
 
 export interface GetCountriesData {
-  countries: Country[];
+  countries: Country[]
 }
