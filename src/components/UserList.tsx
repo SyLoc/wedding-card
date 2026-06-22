@@ -41,7 +41,6 @@ export function UserList({
         setMutationError(
           err instanceof Error ? err.message : "Failed to update user",
         );
-        throw err;
       }
     },
     [updateUser],

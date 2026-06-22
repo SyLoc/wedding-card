@@ -1,8 +1,27 @@
 import { Form, Input, Modal, Select } from "antd";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import type { Country } from "@/types/country";
 import type { UpdateUserInput, User } from "@/types/user";
+
+const EMPTY_FORM_VALUES: UpdateUserInput = {
+  name: "",
+  email: "",
+  countryCode: "",
+};
+
+function getUserFormValues(user: User): UpdateUserInput {
+  return {
+    name: user.name,
+    email: user.email,
+    countryCode: user.countryCode,
+  };
+}
+
+function validateName(value: string): true | string {
+  return value.trim() ? true : "Name is required";
+}
 
 interface UserEditModalProps {
   open: boolean;
@@ -29,29 +48,17 @@ export function UserEditModal({
     reset,
     formState: { errors },
   } = useForm<UpdateUserInput>({
-    defaultValues: {
-      name: "",
-      email: "",
-      countryCode: "",
-    },
+    defaultValues: EMPTY_FORM_VALUES,
   });
 
   useEffect(() => {
     if (open && user) {
-      reset({
-        name: user.name,
-        email: user.email,
-        countryCode: user.countryCode,
-      });
+      reset(getUserFormValues(user));
       return;
     }
 
     if (!open) {
-      reset({
-        name: "",
-        email: "",
-        countryCode: "",
-      });
+      reset(EMPTY_FORM_VALUES);
     }
   }, [open, user, reset]);
 
@@ -74,27 +81,15 @@ export function UserEditModal({
     return options;
   }, [countries, user?.countryCode]);
 
-  const handleOk = () =>
-    new Promise<void>((resolve, reject) => {
-      void handleSubmit(
-        async (values) => {
-          if (!user) {
-            reject(new Error("No user selected"));
-            return;
-          }
+  const handleValidSubmit: SubmitHandler<UpdateUserInput> = (values) => {
+    if (!user) return;
 
-          try {
-            await onSave(user.id, values);
-            resolve();
-          } catch (error) {
-            reject(error);
-          }
-        },
-        () => {
-          reject(new Error("Validation failed"));
-        },
-      )();
-    });
+    return onSave(user.id, values);
+  };
+
+  const handleOk = () => {
+    void handleSubmit(handleValidSubmit)();
+  };
 
   return (
     <Modal
@@ -117,7 +112,10 @@ export function UserEditModal({
           <Controller
             name="name"
             control={control}
-            rules={{ required: "Name is required" }}
+            rules={{
+              required: "Name is required",
+              validate: validateName,
+            }}
             render={({ field }) => <Input {...field} placeholder="Full name" />}
           />
         </Form.Item>
