@@ -1,0 +1,10 @@
+# Project-specific Codex defaults. Codex loads this file only when the
+# repository is trusted.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
+model_reasoning_effort = "medium"
+
+[features]
+shell_snapshot = true
+multi_agent = true
