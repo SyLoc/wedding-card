@@ -5,62 +5,44 @@ import type { SubmitHandler } from "react-hook-form";
 import { UserFormFields } from "@/components/UserFormFields";
 import { EMPTY_USER_FORM_VALUES } from "@/components/userFormValues";
 import type { Country } from "@/types/country";
-import type { UpdateUserInput, User } from "@/types/user";
+import type { CreateUserInput } from "@/types/user";
 
-function getUserFormValues(user: User): UpdateUserInput {
-  return {
-    name: user.name,
-    email: user.email,
-    countryCode: user.countryCode,
-  };
-}
-
-interface UserEditModalProps {
+interface UserCreateModalProps {
   open: boolean;
-  user: User | null;
   countries: Country[];
   countriesLoading: boolean;
   saving: boolean;
   error: string | null;
   onCancel: () => void;
-  onSave: (id: string, input: UpdateUserInput) => Promise<void>;
+  onSave: (input: CreateUserInput) => Promise<void>;
 }
 
-export function UserEditModal({
+export function UserCreateModal({
   open,
-  user,
   countries,
   countriesLoading,
   saving,
   error,
   onCancel,
   onSave,
-}: UserEditModalProps) {
+}: UserCreateModalProps) {
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<UpdateUserInput>({
+  } = useForm<CreateUserInput>({
     defaultValues: EMPTY_USER_FORM_VALUES,
   });
 
   useEffect(() => {
-    if (open && user) {
-      reset(getUserFormValues(user));
-      return;
-    }
-
     if (!open) {
       reset(EMPTY_USER_FORM_VALUES);
     }
-  }, [open, user, reset]);
+  }, [open, reset]);
 
-  const handleValidSubmit: SubmitHandler<UpdateUserInput> = (values) => {
-    if (!user) return;
-
-    return onSave(user.id, values);
-  };
+  const handleValidSubmit: SubmitHandler<CreateUserInput> = (values) =>
+    onSave(values);
 
   const handleOk = () => {
     void handleSubmit(handleValidSubmit)();
@@ -68,13 +50,13 @@ export function UserEditModal({
 
   return (
     <Modal
-      title="Edit user"
+      title="Create user"
       open={open}
       onCancel={onCancel}
       onOk={handleOk}
       confirmLoading={saving}
       destroyOnClose
-      okText="Save"
+      okText="Create"
       okButtonProps={{ disabled: countriesLoading }}
     >
       <Form layout="vertical">
@@ -83,7 +65,7 @@ export function UserEditModal({
             type="error"
             showIcon
             className="mb-4"
-            message="Could not update user"
+            message="Could not create user"
             description={error}
           />
         )}
@@ -93,7 +75,6 @@ export function UserEditModal({
           errors={errors}
           countries={countries}
           countriesLoading={countriesLoading}
-          currentCountryCode={user?.countryCode}
         />
       </Form>
     </Modal>

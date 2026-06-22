@@ -1,11 +1,12 @@
 import { ApolloLink, Observable } from "@apollo/client";
 import { MOCK_COUNTRIES } from "@/mocks/countries";
 import {
+  createMockUser,
   deleteMockUser,
   getMockUsers,
   updateMockUser,
 } from "@/mocks/users";
-import type { UpdateUserInput } from "@/types/user";
+import type { CreateUserInput, UpdateUserInput } from "@/types/user";
 
 const FAKE_API_DELAY_MS = 800;
 
@@ -29,6 +30,19 @@ export const mockLink = new ApolloLink((operation) => {
       if (operation.operationName === "GetUsers") {
         observer.next({
           data: { users: getMockUsers() },
+        });
+        observer.complete();
+        return;
+      }
+
+      if (operation.operationName === "CreateUser") {
+        const { input } = operation.variables as {
+          input: CreateUserInput;
+        };
+        const createdUser = createMockUser(input);
+
+        observer.next({
+          data: { createUser: createdUser },
         });
         observer.complete();
         return;

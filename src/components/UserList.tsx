@@ -1,10 +1,11 @@
 import { Alert, Button, Card, Popconfirm, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useCallback, useMemo, useState } from "react";
+import { UserCreateModal } from "@/components/UserCreateModal";
 import { UserEditModal } from "@/components/UserEditModal";
 import { useUserMutations } from "@/hooks/useUserMutations";
 import type { Country } from "@/types/country";
-import type { UpdateUserInput, User } from "@/types/user";
+import type { CreateUserInput, UpdateUserInput, User } from "@/types/user";
 
 interface UserListProps {
   users: User[];
@@ -21,7 +22,9 @@ export function UserList({
   countries,
   countriesLoading,
 }: UserListProps) {
-  const { updateUser, deleteUser, updating } = useUserMutations();
+  const { createUser, updateUser, deleteUser, creating, updating } =
+    useUserMutations();
+  const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
   const [mutationError, setMutationError] = useState<string | null>(null);
@@ -29,6 +32,41 @@ export function UserList({
   const countryNameByCode = useMemo(
     () => new Map(countries.map((country) => [country.code, country.name])),
     [countries],
+  );
+
+  const handleOpenCreate = () => {
+    setMutationError(null);
+    setCreateModalOpen(true);
+  };
+
+  const handleCloseCreate = () => {
+    setMutationError(null);
+    setCreateModalOpen(false);
+  };
+
+  const handleOpenEdit = useCallback((user: User) => {
+    setMutationError(null);
+    setEditingUser(user);
+  }, []);
+
+  const handleCloseEdit = () => {
+    setMutationError(null);
+    setEditingUser(null);
+  };
+
+  const handleCreateSave = useCallback(
+    async (input: CreateUserInput) => {
+      try {
+        setMutationError(null);
+        await createUser(input);
+        setCreateModalOpen(false);
+      } catch (err) {
+        setMutationError(
+          err instanceof Error ? err.message : "Failed to create user",
+        );
+      }
+    },
+    [createUser],
   );
 
   const handleEditSave = useCallback(
@@ -90,7 +128,7 @@ export function UserList({
         width: 160,
         render: (_, user) => (
           <Space>
-            <Button type="link" onClick={() => setEditingUser(user)}>
+            <Button type="link" onClick={() => handleOpenEdit(user)}>
               Edit
             </Button>
             <Popconfirm
@@ -109,12 +147,24 @@ export function UserList({
         ),
       },
     ],
-    [countryNameByCode, deletingUserId, handleDelete],
+    [countryNameByCode, deletingUserId, handleDelete, handleOpenEdit],
   );
 
   return (
     <>
-      <Card title="User management" className="mb-6 shadow-sm">
+      <Card
+        title="User management"
+        extra={
+          <Button
+            type="primary"
+            disabled={countriesLoading}
+            onClick={handleOpenCreate}
+          >
+            Create user
+          </Button>
+        }
+        className="mb-6 shadow-sm"
+      >
         {error && (
           <Alert
             type="error"
@@ -125,7 +175,7 @@ export function UserList({
           />
         )}
 
-        {mutationError && (
+        {mutationError && !createModalOpen && !editingUser && (
           <Alert
             type="error"
             showIcon
@@ -147,13 +197,24 @@ export function UserList({
         />
       </Card>
 
+      <UserCreateModal
+        open={createModalOpen}
+        countries={countries}
+        countriesLoading={countriesLoading}
+        saving={creating}
+        error={mutationError}
+        onCancel={handleCloseCreate}
+        onSave={handleCreateSave}
+      />
+
       <UserEditModal
         open={editingUser !== null}
         user={editingUser}
         countries={countries}
         countriesLoading={countriesLoading}
         saving={updating}
-        onCancel={() => setEditingUser(null)}
+        error={mutationError}
+        onCancel={handleCloseEdit}
         onSave={handleEditSave}
       />
     </>

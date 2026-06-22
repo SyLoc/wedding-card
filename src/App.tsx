@@ -1,6 +1,5 @@
 import { ConfigProvider } from "antd";
 import { CountryList } from "@/components/CountryList";
-import { ExampleForm } from "@/components/ExampleForm";
 import { UserList } from "@/components/UserList";
 import { useCountries } from "@/hooks/useCountries";
 import { useUsers } from "@/hooks/useUsers";
@@ -44,12 +43,6 @@ export function App() {
             error={usersError}
             countries={countries}
             countriesLoading={loading}
-          />
-
-          <ExampleForm
-            countries={countries}
-            countriesLoading={loading}
-            countriesError={error}
           />
         </main>
       </div>

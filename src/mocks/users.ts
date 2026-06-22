@@ -1,4 +1,4 @@
-import type { UpdateUserInput, User } from "@/types/user";
+import type { CreateUserInput, UpdateUserInput, User } from "@/types/user";
 
 let mockUsers: User[] = [
   {
@@ -35,6 +35,18 @@ let mockUsers: User[] = [
 
 export function getMockUsers(): User[] {
   return [...mockUsers];
+}
+
+export function createMockUser(input: CreateUserInput): User {
+  const nextId =
+    Math.max(0, ...mockUsers.map((user) => Number(user.id) || 0)) + 1;
+  const user = {
+    id: String(nextId),
+    ...input,
+  };
+
+  mockUsers = [user, ...mockUsers];
+  return user;
 }
 
 export function updateMockUser(

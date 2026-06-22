@@ -1,19 +1,28 @@
-export interface User {
-  id: string;
+export interface UserInput {
   name: string;
   email: string;
   countryCode: string;
+}
+
+export interface User extends UserInput {
+  id: string;
 }
 
 export interface GetUsersData {
   users: User[];
 }
 
-export interface UpdateUserInput {
-  name: string;
-  email: string;
-  countryCode: string;
+export type CreateUserInput = UserInput;
+
+export interface CreateUserVariables {
+  input: CreateUserInput;
 }
+
+export interface CreateUserData {
+  createUser: User;
+}
+
+export type UpdateUserInput = UserInput;
 
 export interface UpdateUserVariables {
   id: string;
