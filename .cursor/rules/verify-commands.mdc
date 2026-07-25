@@ -1,0 +1,15 @@
+---
+description: Do not run lint/build unless the user asks
+alwaysApply: true
+---
+
+# Verify commands
+
+Do **not** run `npm run lint`, `npm run build`, or
+`npm run lint && npm run build` unless the user explicitly requests it.
+
+Do not run these commands proactively after code changes, even when editing
+TypeScript or React files.
+
+If verification is useful, mention that the user can run lint or build locally
+instead of running the commands yourself.

@@ -19,10 +19,9 @@ GraphQL operations currently run through the local mock Apollo Link in
 - Lint: `npm run lint`
 - Type-check and build: `npm run build`
 
-After changing TypeScript or React code, run:
-
-1. `npm run lint`
-2. `npm run build`
+Do **not** run `npm run lint` or `npm run build` (including chained as
+`npm run lint && npm run build`) unless the user explicitly asks. The user
+may run these locally when they want to verify changes.
 
 There is currently no automated test command. Do not claim tests passed unless
 a test framework and test script have been added.

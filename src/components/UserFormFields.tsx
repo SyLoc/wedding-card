@@ -5,10 +5,6 @@ import type { Control, FieldErrors } from "react-hook-form"
 import type { Country } from "@/types/country"
 import type { UserInput } from "@/types/user"
 
-function validateName(value: string): true | string {
-  return value.trim() ? true : "Name is required"
-}
-
 interface UserFormFieldsProps {
   control: Control<UserInput>
   errors: FieldErrors<UserInput>
@@ -54,10 +50,6 @@ export function UserFormFields({
         <Controller
           name="name"
           control={control}
-          rules={{
-            required: "Name is required",
-            validate: validateName,
-          }}
           render={({ field }) => <Input {...field} placeholder="Full name" />}
         />
       </Form.Item>
@@ -71,13 +63,6 @@ export function UserFormFields({
         <Controller
           name="email"
           control={control}
-          rules={{
-            required: "Email is required",
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Enter a valid email address",
-            },
-          }}
           render={({ field }) => (
             <Input {...field} type="email" placeholder="you@example.com" />
           )}
@@ -93,7 +78,6 @@ export function UserFormFields({
         <Controller
           name="countryCode"
           control={control}
-          rules={{ required: "Country is required" }}
           render={({ field }) => (
             <Select
               {...field}

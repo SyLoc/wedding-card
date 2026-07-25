@@ -1,4 +1,5 @@
 import { Alert, Form, Modal } from "antd"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
@@ -6,6 +7,7 @@ import { UserFormFields } from "@/components/UserFormFields"
 import { EMPTY_USER_FORM_VALUES } from "@/components/userFormValues"
 import type { Country } from "@/types/country"
 import type { UpdateUserInput, User } from "@/types/user"
+import { userInputSchema } from "@/validation/user"
 
 function getUserFormValues(user: User): UpdateUserInput {
   return {
@@ -42,6 +44,7 @@ export function UserEditModal({
     reset,
     formState: { errors },
   } = useForm<UpdateUserInput>({
+    resolver: zodResolver(userInputSchema),
     defaultValues: EMPTY_USER_FORM_VALUES,
   })
 

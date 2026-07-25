@@ -1,4 +1,5 @@
 import { Alert, Form, Modal } from "antd"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
@@ -6,6 +7,7 @@ import { UserFormFields } from "@/components/UserFormFields"
 import { EMPTY_USER_FORM_VALUES } from "@/components/userFormValues"
 import type { Country } from "@/types/country"
 import type { CreateUserInput } from "@/types/user"
+import { userInputSchema } from "@/validation/user"
 
 interface UserCreateModalProps {
   open: boolean
@@ -32,6 +34,7 @@ export function UserCreateModal({
     reset,
     formState: { errors },
   } = useForm<CreateUserInput>({
+    resolver: zodResolver(userInputSchema),
     defaultValues: EMPTY_USER_FORM_VALUES,
   })
 

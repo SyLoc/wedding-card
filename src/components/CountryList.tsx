@@ -9,6 +9,12 @@ interface CountryListProps {
   error: Error | undefined
 }
 
+function countryCodeToFlag(code: string): string {
+  return [...code.toUpperCase()]
+    .map((char) => String.fromCodePoint(0x1f1e6 + char.charCodeAt(0) - 65))
+    .join("")
+}
+
 export function CountryList({ countries, loading, error }: CountryListProps) {
   const columns: ColumnsType<Country> = useMemo(
     () => [
@@ -23,6 +29,17 @@ export function CountryList({ countries, loading, error }: CountryListProps) {
         title: "Country",
         dataIndex: "name",
         key: "name",
+      },
+      {
+        title: "Flag",
+        key: "flag",
+        width: 80,
+        align: "center",
+        render: (_, record) => (
+          <span className="text-2xl" role="img" aria-label={`${record.name} flag`}>
+            {countryCodeToFlag(record.code)}
+          </span>
+        ),
       },
     ],
     [],
