@@ -1,7 +1,7 @@
-import { Alert, Card, Table, Tag } from "antd"
-import type { ColumnsType } from "antd/es/table"
-import type { Country } from "@/types/country"
-import { useMemo } from "react"
+import { Alert, Card, Table, Tag } from 'antd'
+import type { ColumnsType } from 'antd/es/table'
+import type { Country } from '@/types/country'
+import { useMemo } from 'react'
 
 interface CountryListProps {
   countries: Country[]
@@ -12,31 +12,35 @@ interface CountryListProps {
 function countryCodeToFlag(code: string): string {
   return [...code.toUpperCase()]
     .map((char) => String.fromCodePoint(0x1f1e6 + char.charCodeAt(0) - 65))
-    .join("")
+    .join('')
 }
 
 export function CountryList({ countries, loading, error }: CountryListProps) {
   const columns: ColumnsType<Country> = useMemo(
     () => [
       {
-        title: "Code",
-        dataIndex: "code",
-        key: "code",
+        title: 'Code',
+        dataIndex: 'code',
+        key: 'code',
         width: 120,
         render: (code: string) => <Tag color="blue">{code}</Tag>,
       },
       {
-        title: "Country",
-        dataIndex: "name",
-        key: "name",
+        title: 'Country',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
-        title: "Flag",
-        key: "flag",
+        title: 'Flag',
+        key: 'flag',
         width: 80,
-        align: "center",
+        align: 'center',
         render: (_, record) => (
-          <span className="text-2xl" role="img" aria-label={`${record.name} flag`}>
+          <span
+            className="text-2xl"
+            role="img"
+            aria-label={`${record.name} flag`}
+          >
             {countryCodeToFlag(record.code)}
           </span>
         ),
@@ -63,7 +67,7 @@ export function CountryList({ countries, loading, error }: CountryListProps) {
         dataSource={countries}
         loading={loading}
         pagination={{ pageSize: 5, showSizeChanger: false }}
-        locale={{ emptyText: loading ? "Loading..." : "No data" }}
+        locale={{ emptyText: loading ? 'Loading...' : 'No data' }}
       />
     </Card>
   )

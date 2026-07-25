@@ -1,22 +1,19 @@
-import { ConfigProvider } from "antd"
-import { CountryList } from "@/components/CountryList"
-import { UserList } from "@/components/UserList"
-import { useCountries } from "@/hooks/useCountries"
-import { useUsers } from "@/hooks/useUsers"
+import { ConfigProvider } from 'antd'
+import { CountryList } from '@/components/CountryList'
+import { UserList } from '@/components/UserList'
+import { useCountries } from '@/hooks/useCountries'
+import { useUsers } from '@/hooks/useUsers'
+import { toUrl } from '@/utils/url'
 
 export function LearningDashboardPage() {
   const { countries, loading, error } = useCountries()
-  const {
-    users,
-    loading: usersLoading,
-    error: usersError,
-  } = useUsers()
+  const { users, loading: usersLoading, error: usersError } = useUsers()
 
   return (
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#1677ff",
+          colorPrimary: '#1677ff',
         },
       }}
     >
@@ -32,24 +29,22 @@ export function LearningDashboardPage() {
             <div className="mt-4 flex flex-wrap justify-center gap-3">
               <a
                 className="inline-flex rounded-full bg-emerald-800 px-5 py-2.5 font-medium text-white no-underline transition hover:bg-emerald-900"
-                href="/wedding/demo"
+                href={toUrl('/wedding/demo')}
               >
                 Xem demo thiệp Hoa Mộc Xanh
               </a>
               <a
                 className="inline-flex rounded-full border border-emerald-800 bg-white px-5 py-2.5 font-medium text-emerald-800 no-underline transition hover:bg-emerald-50"
-                href="/edit/05be378a-5f1f-465b-be2c-7790545773bb?template=boho_floral_green"
+                href={toUrl(
+                  '/edit/05be378a-5f1f-465b-be2c-7790545773bb?template=boho_floral_green',
+                )}
               >
                 Chỉnh sửa thiệp
               </a>
             </div>
           </header>
 
-          <CountryList
-            countries={countries}
-            loading={loading}
-            error={error}
-          />
+          <CountryList countries={countries} loading={loading} error={error} />
 
           <UserList
             users={users}

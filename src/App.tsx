@@ -1,13 +1,14 @@
-import { lazy, Suspense } from "react"
+import { lazy, Suspense } from 'react'
+import { getNormalizedPath } from './utils/path'
 
 const GreenFloralWeddingPage = lazy(() =>
-  import("@/features/wedding/pages/GreenFloralWeddingPage").then((module) => ({
+  import('@/features/wedding/pages/GreenFloralWeddingPage').then((module) => ({
     default: module.GreenFloralWeddingPage,
   })),
 )
 
 const WeddingEditorPage = lazy(() =>
-  import("@/features/wedding/editor/pages/WeddingEditorPage").then(
+  import('@/features/wedding/editor/pages/WeddingEditorPage').then(
     (module) => ({
       default: module.WeddingEditorPage,
     }),
@@ -15,15 +16,16 @@ const WeddingEditorPage = lazy(() =>
 )
 
 const LearningDashboardPage = lazy(() =>
-  import("@/pages/LearningDashboardPage").then((module) => ({
+  import('@/pages/LearningDashboardPage').then((module) => ({
     default: module.LearningDashboardPage,
   })),
 )
 
 export function App() {
-  const normalizedPath = window.location.pathname.replace(/\/$/, "") || "/"
-  const isWeddingPage = normalizedPath.startsWith("/wedding/")
-  const isWeddingEditor = normalizedPath.startsWith("/edit/")
+  // const normalizedPath = window.location.pathname.replace(/\/$/, "") || "/"
+  const normalizedPath = getNormalizedPath()
+  const isWeddingPage = normalizedPath.startsWith('/wedding/')
+  const isWeddingEditor = normalizedPath.startsWith('/edit/')
 
   return (
     <Suspense
