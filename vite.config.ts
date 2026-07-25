@@ -5,7 +5,8 @@ import { defineConfig, loadEnv } from 'vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
-  console.log('BASE:', env.VITE_BASE_URL)
+  console.log('MODE:', mode)
+  console.log('BASE_URL:', env.VITE_BASE_URL)
   return {
     plugins: [react()],
     server: {
