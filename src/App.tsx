@@ -15,9 +15,15 @@ const WeddingEditorPage = lazy(() =>
   ),
 )
 
-const LearningDashboardPage = lazy(() =>
-  import('@/pages/LearningDashboardPage').then((module) => ({
-    default: module.LearningDashboardPage,
+// const LearningDashboardPage = lazy(() =>
+//   import('@/pages/LearningDashboardPage').then((module) => ({
+//     default: module.LearningDashboardPage,
+//   })),
+// )
+
+const HomePage = lazy(() =>
+  import('@/pages/HomePage').then((module) => ({
+    default: module.HomePage,
   })),
 )
 
@@ -31,7 +37,7 @@ export function App() {
   return (
     <Suspense fallback={pageFallback}>
       <Routes>
-        <Route path="/" element={<LearningDashboardPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/wedding/:slug" element={<GreenFloralWeddingPage />} />
         <Route path="/edit/:invitationId" element={<WeddingEditorPage />} />
       </Routes>
