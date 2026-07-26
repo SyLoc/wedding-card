@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { getNormalizedPath } from './utils/path'
+import { Route, Routes } from 'react-router-dom'
 
 const GreenFloralWeddingPage = lazy(() =>
   import('@/features/wedding/pages/GreenFloralWeddingPage').then((module) => ({
@@ -21,27 +21,20 @@ const LearningDashboardPage = lazy(() =>
   })),
 )
 
-export function App() {
-  // const normalizedPath = window.location.pathname.replace(/\/$/, "") || "/"
-  const normalizedPath = getNormalizedPath()
-  const isWeddingPage = normalizedPath.startsWith('/wedding/')
-  const isWeddingEditor = normalizedPath.startsWith('/edit/')
+const pageFallback = (
+  <div className="grid min-h-screen place-items-center bg-[#fffaf4] text-[#4c6755]">
+    Đang mở trang…
+  </div>
+)
 
+export function App() {
   return (
-    <Suspense
-      fallback={
-        <div className="grid min-h-screen place-items-center bg-[#fffaf4] text-[#4c6755]">
-          Đang mở trang…
-        </div>
-      }
-    >
-      {isWeddingEditor ? (
-        <WeddingEditorPage />
-      ) : isWeddingPage ? (
-        <GreenFloralWeddingPage />
-      ) : (
-        <LearningDashboardPage />
-      )}
+    <Suspense fallback={pageFallback}>
+      <Routes>
+        <Route path="/" element={<LearningDashboardPage />} />
+        <Route path="/wedding/:slug" element={<GreenFloralWeddingPage />} />
+        <Route path="/edit/:invitationId" element={<WeddingEditorPage />} />
+      </Routes>
     </Suspense>
   )
 }

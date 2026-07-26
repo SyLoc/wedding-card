@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 import {
   EditorHeader,
   type EditorSaveStatus,
@@ -12,17 +13,13 @@ import { GREEN_FLORAL_INVITATION } from '@/mocks/weddingInvitation'
 import type { WeddingInvitation } from '@/types/wedding'
 import { weddingInvitationSchema } from '@/validation/weddingInvitation'
 import '@/features/wedding/editor/weddingEditor.css'
-import { toUrl } from '@/utils/url'
+import { toHashRouteUrl } from '@/utils/url'
 
 type MobilePanel = 'edit' | 'preview'
 
-function getInvitationId(): string {
-  const pathParts = window.location.pathname.split('/').filter(Boolean)
-  return pathParts[1] ?? 'green-floral-demo'
-}
-
 export function WeddingEditorPage() {
-  const invitationId = getInvitationId()
+  const { invitationId: invitationIdParam } = useParams<{ invitationId: string }>()
+  const invitationId = invitationIdParam ?? 'green-floral-demo'
   const { invitation, loading, error, saveInvitation, publishInvitation } =
     useWeddingEditor(invitationId)
   const form = useForm<WeddingInvitation>({
@@ -166,7 +163,7 @@ export function WeddingEditorPage() {
       return
     }
 
-    const previewUrl = toUrl(`/wedding/${form.getValues('slug')}.html`)
+    const previewUrl = toHashRouteUrl(`/wedding/${form.getValues('slug')}`)
 
     if (previewWindow) {
       previewWindow.opener = null

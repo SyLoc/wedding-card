@@ -3,6 +3,7 @@ import { useState, type ChangeEvent } from "react"
 import { capitalizeFirstLetter } from "@/features/wedding/utils/text"
 import { storeWeddingMusic } from "@/features/wedding/utils/musicStorage"
 import type { WeddingInvitation } from "@/types/wedding"
+import { toHashRouteUrl } from "@/utils/url"
 
 function FieldError({ message }: { message?: string }) {
   return message ? (
@@ -39,7 +40,9 @@ export function WeddingEditorForm() {
     salutation: guest.salutation,
     couplePronoun: guest.couplePronoun,
   })
-  const personalizedUrl = `${window.location.origin}/wedding/${slug}?${guestParams.toString()}`
+  const personalizedUrl = toHashRouteUrl(
+    `/wedding/${slug}?${guestParams.toString()}`,
+  )
   const guestDisplayName =
     [guest.group, guest.salutation, capitalizeFirstLetter(guest.name)]
       .filter(Boolean)

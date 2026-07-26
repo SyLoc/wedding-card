@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client"
+import { useParams, useSearchParams } from "react-router-dom"
 import { GreenFloralTemplate } from "@/features/wedding/templates/green-floral/GreenFloralTemplate"
 import { GET_WEDDING_INVITATION } from "@/graphql/queries/weddingInvitation"
 import { GREEN_FLORAL_INVITATION } from "@/mocks/weddingInvitation"
@@ -8,7 +9,9 @@ import type {
 } from "@/types/wedding"
 
 export function GreenFloralWeddingPage() {
-  const slug = window.location.pathname.split("/").filter(Boolean)[1] ?? "demo"
+  const { slug: slugParam } = useParams<{ slug: string }>()
+  const slug = slugParam ?? "demo"
+  const [searchParams] = useSearchParams()
   const { data, loading } = useQuery<
     GetWeddingInvitationData,
     GetWeddingInvitationVariables
@@ -26,7 +29,6 @@ export function GreenFloralWeddingPage() {
   }
 
   const baseInvitation = data?.weddingInvitation ?? GREEN_FLORAL_INVITATION
-  const searchParams = new URLSearchParams(window.location.search)
   const salutationFromUrl = searchParams.get("salutation")?.trim()
   const personalizedInvitation = {
     ...baseInvitation,

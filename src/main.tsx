@@ -1,6 +1,7 @@
 import { ApolloProvider } from "@apollo/client"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
+import { HashRouter } from "react-router-dom"
 import { apolloClient } from "@/apollo/client"
 import { App } from "@/App"
 import "@/index.css"
@@ -14,7 +15,9 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <ApolloProvider client={apolloClient}>
-      <App />
+      <HashRouter>
+        <App />
+      </HashRouter>
     </ApolloProvider>
   </StrictMode>,
 )

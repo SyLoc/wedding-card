@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import type { WeddingInvitation } from "@/types/wedding"
 
 export type EditorSaveStatus =
@@ -35,9 +36,9 @@ export function EditorHeader({
   return (
     <header className="wedding-editor-header">
       <div className="wedding-editor-header__brand">
-        <a href="/" aria-label="Về trang chủ">
+        <Link to="/" aria-label="Về trang chủ">
           ←
-        </a>
+        </Link>
         <div>
           <strong>Hoa Mộc Xanh</strong>
           <span>{invitation.slug}</span>

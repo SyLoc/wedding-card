@@ -1,9 +1,9 @@
 import { ConfigProvider } from 'antd'
+import { Link } from 'react-router-dom'
 import { CountryList } from '@/components/CountryList'
 import { UserList } from '@/components/UserList'
 import { useCountries } from '@/hooks/useCountries'
 import { useUsers } from '@/hooks/useUsers'
-import { toUrl } from '@/utils/url'
 
 export function LearningDashboardPage() {
   const { countries, loading, error } = useCountries()
@@ -27,20 +27,18 @@ export function LearningDashboardPage() {
               React · TypeScript · Ant Design · TailwindCSS · GraphQL Mock
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-3">
-              <a
+              <Link
                 className="inline-flex rounded-full bg-emerald-800 px-5 py-2.5 font-medium text-white no-underline transition hover:bg-emerald-900"
-                href={toUrl('/wedding/demo')}
+                to="/wedding/demo"
               >
                 Xem demo thiệp Hoa Mộc Xanh
-              </a>
-              <a
+              </Link>
+              <Link
                 className="inline-flex rounded-full border border-emerald-800 bg-white px-5 py-2.5 font-medium text-emerald-800 no-underline transition hover:bg-emerald-50"
-                href={toUrl(
-                  '/edit/05be378a-5f1f-465b-be2c-7790545773bb?template=boho_floral_green',
-                )}
+                to="/edit/05be378a-5f1f-465b-be2c-7790545773bb?template=boho_floral_green"
               >
                 Chỉnh sửa thiệp
-              </a>
+              </Link>
             </div>
           </header>
 
